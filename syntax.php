@@ -31,7 +31,7 @@ class syntax_plugin_couleur extends SyntaxPlugin
     /** @inheritDoc */
     public function connectTo($mode)
     {
-        $this->Lexer->addSpecialPattern('<fahne .*?>', $mode, 'plugin_couleur');
+        $this->Lexer->addSpecialPattern('<band .*?>', $mode, 'plugin_couleur');
 //        $this->Lexer->addEntryPattern('<FIXME>', $mode, 'plugin_fahne');
     }
 
