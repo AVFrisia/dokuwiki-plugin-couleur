@@ -1,19 +1,22 @@
-fahne plugin for DokuWiki
+Couleur Plugin for DokuWiki
 
-Kreeiert Verbindungsfahnen
+Creates images of european fraternity colors, usually presented as flags or
+worn as ribbons across the chest.
 
-All documentation for this plugin can be found at
-https://www.dokuwiki.org/plugin:fahne
+USAGE
 
-If you install this plugin manually, make sure it is installed in
-lib/plugins/fahne/ - if the folder is called different it
-will not work!
+<band:PERCUSSION COLOR1 COLOR2 ... COLORN>
 
-Please refer to http://www.dokuwiki.org/extensions for additional info
-on how to install extensions in DokuWiki.
+PERCUSSION is an optional argument for creating a stitching at the top and
+bottom of a ribbon.
+
+At least two colors (as HTML names or hex-encoded) are added as arguments.
+
+E.g. <band:silver white #6B841A black white> creates the colors of
+AV Frisia Hannover.
 
 ----
-Copyright (C) Johannes Arnold <johannes@rnold.online>
+Copyright (C) Johannes Arnold <johannes@arnold.onl>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
