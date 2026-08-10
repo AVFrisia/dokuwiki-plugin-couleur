@@ -1,7 +1,7 @@
-base   fahne
+base   couleur
 author Johannes Arnold
 email  johannes@rnold.online
 date   2025-11-21
-name   fahne plugin
-desc   Kreeiert Verbindungsfahnen
+name   Couleur-Generator
+desc   Kreeiert Fahnen und Bänder von Studentenverbindungen
 url    https://www.dokuwiki.org/plugin:fahne
