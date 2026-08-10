@@ -8,7 +8,7 @@ use dokuwiki\Extension\SyntaxPlugin;
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author Johannes Arnold <johannes@rnold.online>
  */
-class syntax_plugin_fahne extends SyntaxPlugin
+class syntax_plugin_couleur extends SyntaxPlugin
 {
     /** @inheritDoc */
     public function getType()
@@ -31,7 +31,7 @@ class syntax_plugin_fahne extends SyntaxPlugin
     /** @inheritDoc */
     public function connectTo($mode)
     {
-        $this->Lexer->addSpecialPattern('<fahne .*?>', $mode, 'plugin_fahne');
+        $this->Lexer->addSpecialPattern('<fahne .*?>', $mode, 'plugin_couleur');
 //        $this->Lexer->addEntryPattern('<FIXME>', $mode, 'plugin_fahne');
     }
 
