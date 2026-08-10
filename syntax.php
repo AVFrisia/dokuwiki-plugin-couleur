@@ -108,8 +108,8 @@ class syntax_plugin_couleur extends SyntaxPlugin
 	}
 
 	if (isset($perkussion)) {
-		$svg .= "<line x1='0' y1='0em' x2='100%' y2='0' stroke='{$perkussion}' stroke-width='10' stroke-dasharray='4' />";
-    		$svg .= "<line x1='0' y1='100%' x2='100%' y2='100%' stroke='{$perkussion}' stroke-width='10' stroke-dasharray='4' />";
+		$svg .= "<line x1='0' y1='2%' x2='100%' y2='2%' stroke='{$perkussion}' stroke-linecap='round' stroke-width='4' stroke-dasharray='8' stroke-dashoffset='6px' style='filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, .5));'/>";
+    		$svg .= "<line x1='0' y1='98%' x2='100%' y2='98%' stroke='{$perkussion}' stroke-linecap='round' stroke-width='4' stroke-dasharray='8'  stroke-dashoffset='6px' style='filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, .5));'/>";
 	}
 
         $svg .= "</svg>";
