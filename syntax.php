@@ -3,7 +3,7 @@
 use dokuwiki\Extension\SyntaxPlugin;
 
 /**
- * DokuWiki Plugin fahne (Syntax Component)
+ * DokuWiki Plugin couleur (Syntax Component)
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author Johannes Arnold <johannes@rnold.online>
@@ -13,13 +13,13 @@ class syntax_plugin_couleur extends SyntaxPlugin
     /** @inheritDoc */
     public function getType()
     {
-        return 'substitution';
+        return 'substition';
     }
 
     /** @inheritDoc */
     public function getPType()
     {
-        return 'FIXME: normal';
+        return 'block';
     }
 
     /** @inheritDoc */
@@ -31,30 +31,92 @@ class syntax_plugin_couleur extends SyntaxPlugin
     /** @inheritDoc */
     public function connectTo($mode)
     {
-        $this->Lexer->addSpecialPattern('<band .*?>', $mode, 'plugin_couleur');
-//        $this->Lexer->addEntryPattern('<FIXME>', $mode, 'plugin_fahne');
+	    // TODO: This regex must be more specific.
+	    $this->Lexer->addSpecialPattern('<band.*?>', $mode, 'plugin_couleur');
     }
 
-//    /** @inheritDoc */
-//    public function postConnect()
-//    {
-//        $this->Lexer->addExitPattern('</FIXME>', 'plugin_fahne');
-//    }
 
     /** @inheritDoc */
     public function handle($match, $state, $pos, Doku_Handler $handler)
     {
-        // Remove <fahne and trailing >
-        $inner = trim(substr($match, 6, -1));   // removes <fahne ...>
+        // Remove '<band' and trailing '>'
+        $inner = trim(substr($match, 5, -1));
+        //$inner = trim($inner);
 
-        // Remove optional leading/trailing whitespace
-        $inner = trim($inner);
+        // Seperate arguments
+	$args = array_map('trim', explode(' ', $inner));
 
-        // Parse comma-separated colors
-        $colors = array_map('trim', explode(',', $inner));
-        
-        return $colors;
+	// Argument with ':' is the Perkussion
+	if (str_starts_with($args[0], ':')) {
+		return array(
+			substr($args[0], 1),
+			array_slice($args, 1)
+		);
+	}
+
+	// Otherwise, return everything as a color
+        return array(NULL, $args);
     }
+
+    function renderNcolor($width, $height, $colors) {
+	$count = count($colors);
+	$barHeight = ($height / $count);
+
+	$svg = "";
+
+	// Loop through colors
+        for($i = 0; $i < $count; $i++) {
+            $y = $i * $barHeight;
+            $color = htmlspecialchars($colors[$i]);
+	    $svg .= "<rect x='0' y='{$y}' width='{$width}' height='{$barHeight}' fill='{$color}' />";
+        }
+
+	return $svg;
+    }
+
+    function renderCentered($width, $height, $colors) {
+	$count = count($colors);
+	$barHeight = ($height / ($count - 1));
+
+	$svg = "";
+
+	// Loop through colors,
+	// shifting each bar down
+	$y = 0;
+        for($i = 0; $i < $count; $i++) {
+	    if ($i == 0 || $i == $count-1) {
+		$actualHeight = $barHeight / 2;
+	    } else {
+		$actualHeight = $barHeight;
+	    }
+	    $color = htmlspecialchars($colors[$i]);
+	    $svg .= "<rect x='0' y='{$y}' width='{$width}' height='{$actualHeight}' fill='{$color}' />";
+	    $y += $actualHeight;
+	}
+
+	return $svg;
+    }
+
+    function renderBand($width, $height, $perkussion, $colors) {
+        $svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {$width} {$height}' style='height: auto; width: auto; max-width: 128px; box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 8px; margin: 1em auto; display: block;'>";
+
+	// Center the innermost colors
+	if (count($colors) > 3) {
+	    $svg .= $this->renderCentered($width, $height, $colors);
+	} else {
+	    $svg .= $this->renderNcolor($width, $height, $colors);
+	}
+
+	if (isset($perkussion)) {
+		$svg .= "<line x1='0' y1='0em' x2='100%' y2='0' stroke='{$perkussion}' stroke-width='10' stroke-dasharray='4' />";
+    		$svg .= "<line x1='0' y1='100%' x2='100%' y2='100%' stroke='{$perkussion}' stroke-width='10' stroke-dasharray='4' />";
+	}
+
+        $svg .= "</svg>";
+
+	return $svg;
+    }
+
 
     /** @inheritDoc */
     public function render($mode, Doku_Renderer $renderer, $data)
@@ -63,31 +125,9 @@ class syntax_plugin_couleur extends SyntaxPlugin
             return false;
         }
 
-        $count = count($colors);
-        if($count < 2) {
-            $renderer->doc .= "<p><strong>Error:</strong> <fahne> needs at least 2 colors.</p>";
-            return true;
-        }
-
-        // SVG dimensions
-        $width = 300;
-        $height = 200;
-        $barWidth = $width / $count;
-
-        // Build SVG
-        $svg  = "<svg width='{$width}' height='{$height}' xmlns='http://www.w3.org/2000/svg'>";
-
-        for($i = 0; $i < $count; $i++) {
-            $x = $i * $barWidth;
-            $color = htmlspecialchars($colors[$i]);
-            $svg .= "<rect x='{$x}' y='0' width='{$barWidth}' height='{$height}' fill='{$color}' />";
-        }
-
-        $svg .= "</svg>";
-
-        // Output inline SVG
-        $renderer->doc .= $svg;
-
+	list($perkussion, $colors) = $data;
+	
+	$renderer->doc .= $this->renderBand(300, 200, $perkussion, $colors);
         return true;
     }
 }
