@@ -22,10 +22,9 @@ from `lang/`.
 ## Verification
 
 - `composer check` runs lint (`php -l syntax.php`), PHPUnit and PHPStan
-  (level max). Needs PHP >= 8.0 (`str_starts_with` is used).
+  (level max). Needs PHP >= 8.2.
 - Tests use minimal DokuWiki stubs in `tests/stubs.php`; no DokuWiki
-  install is required. CI runs lint, tests and PHPStan on PHP 8.1–8.4 and
-  lint + PHPStan on PHP 8.0 (PHPUnit 10+ needs 8.1), see
+  install is required. CI runs lint, tests and PHPStan on PHP 8.2–8.4, see
   `.github/workflows/ci.yml`.
 - Output is a visual SVG; for visual checks render the tag in a real
   DokuWiki instance (e.g. the `dokuwiki/dokuwiki` Docker image with the repo

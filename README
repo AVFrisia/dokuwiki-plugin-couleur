@@ -32,7 +32,7 @@ dargestellt, sondern führen zu einem kurzen Hinweis im Artikel.
 ENTWICKLUNG
 -----------
 
-Voraussetzungen: PHP >= 8.0 und [Composer](https://getcomposer.org/).
+Voraussetzungen: PHP >= 8.2 und [Composer](https://getcomposer.org/).
 
     composer install     # Abhängigkeiten installieren
     composer lint        # Syntaxprüfung von syntax.php
@@ -44,8 +44,7 @@ Die Tests verwenden minimale DokuWiki-Stubs (`tests/stubs.php`) und benötigen
 keine vollständige DokuWiki-Installation.
 
 Die CI läuft über GitHub Actions (`.github/workflows/ci.yml`): Lint, Tests
-und statische Analyse auf PHP 8.1–8.4, dazu Lint und statische Analyse auf
-PHP 8.0 (der minimal unterstützten Version; PHPUnit 10+ setzt PHP 8.1 voraus).
+und statische Analyse auf PHP 8.2–8.4.
 
 ----
 Copyright (C) Johannes Arnold <johannes@arnold.onl>
