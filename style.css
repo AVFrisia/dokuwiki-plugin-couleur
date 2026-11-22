@@ -1,0 +1,41 @@
+/**
+ * Editor preview for <band:...> tags in the ProseMirror WYSIWYG editor.
+ *
+ * Only affects the editor, not the rendered page (which is styled from
+ * syntax.php directly).
+ *
+ * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+.plugin_couleur {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.plugin_couleur__preview svg {
+    /* The SVG carries most of this inline; this is just a fallback. */
+    max-width: 128px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 8px;
+    margin: 1em auto;
+    display: block;
+}
+
+.plugin_couleur__syntax {
+    display: block;
+    margin-top: 0.25em;
+    font-size: 0.85em;
+    color: #666;
+    word-break: break-all;
+}
+
+.plugin_couleur__invalid {
+    color: #b00;
+}
+
+/* The raw markup must stay in the DOM (ProseMirror contentDOM) but not show. */
+.plugin_couleur__source {
+    display: none;
+}

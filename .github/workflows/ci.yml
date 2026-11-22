@@ -40,3 +40,17 @@ jobs:
 
       - name: Run static analysis
         run: vendor/bin/phpstan analyse --no-progress
+
+  javascript:
+    name: JavaScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Run tests
+        run: npm test

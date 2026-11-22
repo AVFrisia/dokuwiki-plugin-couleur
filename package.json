@@ -1,0 +1,10 @@
+{
+    "name": "dokuwiki-plugin-couleur",
+    "private": true,
+    "description": "DokuWiki syntax plugin rendering SVG ribbons/flags of European student fraternities",
+    "license": "GPL-2.0-only",
+    "type": "module",
+    "scripts": {
+        "test": "node --test 'tests/js/*.test.js'"
+    }
+}

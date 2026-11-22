@@ -29,22 +29,37 @@ Ohne Perkussion:
 Ungültige Angaben (z. B. keine oder nur eine Farbe) werden nicht als Bild
 dargestellt, sondern führen zu einem kurzen Hinweis im Artikel.
 
+WYSIWYG-VORSCHAU
+----------------
+
+Ist das Plugin
+[prosemirror](https://www.dokuwiki.org/plugin:prosemirror) (WYSIWYG-Editor)
+installiert, wird `<band:...>` beim Bearbeiten bereits als fertiges Band
+angezeigt — statt als Platzhalter mit dem Rohtext. Darunter steht weiterhin
+der tatsächliche Befehl.
+
+Die Vorschau ändert ausschließlich die Anzeige: gespeichert wird unverändert
+der `<band:...>`-Befehl, es kann also nichts beschädigt werden. Ohne das
+prosemirror-Plugin hat die Vorschau keine Auswirkung.
+
 ENTWICKLUNG
 -----------
 
-Voraussetzungen: PHP >= 8.2 und [Composer](https://getcomposer.org/).
+Voraussetzungen: PHP >= 8.2, [Composer](https://getcomposer.org/) und für die
+JavaScript-Tests Node.js (LTS).
 
     composer install     # Abhängigkeiten installieren
     composer lint        # Syntaxprüfung von syntax.php
     composer test        # PHPUnit-Tests ausführen
     composer stan        # statische Analyse (PHPStan, Level max)
-    composer check       # alle drei Schritte
+    composer test:js     # JavaScript-Tests (Node Test Runner)
+    composer check       # alle Schritte
 
 Die Tests verwenden minimale DokuWiki-Stubs (`tests/stubs.php`) und benötigen
 keine vollständige DokuWiki-Installation.
 
 Die CI läuft über GitHub Actions (`.github/workflows/ci.yml`): Lint, Tests
-und statische Analyse auf PHP 8.2–8.4.
+und statische Analyse auf PHP 8.2–8.4, dazu die JavaScript-Tests.
 
 ----
 Copyright (C) Johannes Arnold <johannes@arnold.onl>
