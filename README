@@ -1,30 +1,61 @@
-Couleur Plugin for DokuWiki
+Couleur-Plugin für DokuWiki
+===========================
 
-Creates images of european fraternity colors, usually presented as flags or
-worn as ribbons across the chest.
+Erzeugt Bilder der Farben europäischer Studentenverbindungen, meist als
+Fahnen dargestellt oder als Band über der Brust getragen.
 
-USAGE
+Die Darstellung erfolgt als eingebettetes SVG; es sind keine externen
+Ressourcen oder Skripte nötig.
 
-<band:PERCUSSION COLOR1 COLOR2 ... COLORN>
+VERWENDUNG
+----------
 
-PERCUSSION is an optional argument for creating a stitching at the top and
-bottom of a ribbon.
+    <band:PERKUSSION FARBE1 FARBE2 ... FARBEN>
 
-At least two colors (as HTML names or hex-encoded) are added as arguments.
+- `PERKUSSION` ist ein optionales Argument (mit führendem Doppelpunkt), das
+  eine Perkussion (Stickerei/Randlinie) am oberen und unteren Rand des Bandes
+  erzeugt.
+- Mindestens zwei Farben werden benötigt. Angegeben werden Farben als
+  HTML-Farbnamen oder hexadezimal (z. B. `#6B841A`). Höchstens 20 Farben sind
+  erlaubt.
 
-E.g. <band:silver white #6B841A black white> creates the colors of
+Beispiel: `<band:silver white #6B841A black white>` erzeugt die Farben der
 AV Frisia Hannover.
+
+Ohne Perkussion:
+
+    <band red white blue>
+
+Ungültige Angaben (z. B. keine oder nur eine Farbe) werden nicht als Bild
+dargestellt, sondern führen zu einem kurzen Hinweis im Artikel.
+
+ENTWICKLUNG
+-----------
+
+Voraussetzungen: PHP >= 8.0 und [Composer](https://getcomposer.org/).
+
+    composer install     # Abhängigkeiten installieren
+    composer lint        # Syntaxprüfung von syntax.php
+    composer test        # PHPUnit-Tests ausführen
+    composer stan        # statische Analyse (PHPStan, Level max)
+    composer check       # alle drei Schritte
+
+Die Tests verwenden minimale DokuWiki-Stubs (`tests/stubs.php`) und benötigen
+keine vollständige DokuWiki-Installation.
+
+Die CI läuft über GitHub Actions (`.github/workflows/ci.yml`): Lint, Tests
+und statische Analyse auf PHP 8.1–8.4, dazu Lint und statische Analyse auf
+PHP 8.0 (der minimal unterstützten Version; PHPUnit 10+ setzt PHP 8.1 voraus).
 
 ----
 Copyright (C) Johannes Arnold <johannes@arnold.onl>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2 of the License
+Dieses Programm ist freie Software; Sie können es unter den Bedingungen der
+GNU General Public License, Version 2, weiterverbreiten und/oder verändern.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Dieses Programm wird in der Hoffnung verteilt, dass es nützlich ist, jedoch
+OHNE JEDE GEWÄHRLEISTUNG; auch ohne die implizite Gewährleistung der
+MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.  Siehe die GNU
+General Public License für weitere Details.
 
-See the LICENSE file for details
+Siehe die Datei LICENSE für Details.

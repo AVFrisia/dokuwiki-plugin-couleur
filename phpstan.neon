@@ -1,0 +1,7 @@
+parameters:
+    level: max
+    paths:
+        - syntax.php
+    scanFiles:
+        - tests/stubs.php
+    tmpDir: .phpstan

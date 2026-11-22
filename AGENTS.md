@@ -2,7 +2,8 @@
 
 DokuWiki syntax plugin that renders SVG ribbons/flags of European student
 fraternities. The entire plugin is `syntax.php`; it emits inline SVG for the
-`<band:PERCUSSION COLOR1 ... COLORN>` markup (see README).
+`<band:PERCUSSION COLOR1 ... COLORN>` markup (see README). Error messages come
+from `lang/`.
 
 ## Naming — do not "fix" without understanding
 
@@ -13,17 +14,30 @@ fraternities. The entire plugin is `syntax.php`; it emits inline SVG for the
   `plugin:fahne`, but the base stays `couleur`. Renaming `base` or the class
   without coordinating all three breaks plugin loading.
 - The markup tag is `band`, neither `couleur` nor `fahne`
-  (`connectTo()` in syntax.php, with a TODO to tighten the `<band.*?>` regex).
+  (`connectTo()` in syntax.php; the pattern matches `<band…>` only and
+  deliberately does not match lookalikes such as `<bandana>`).
 - The GitHub remote still points at the old name
   `AVFrisia/dokuwiki-plugin-couleur`.
 
 ## Verification
 
-- No test suite, no composer, no CI, no lint config. The only automated check:
-  `php -l syntax.php` (requires PHP >= 8.0; `str_starts_with` is used).
-- Output is a visual SVG; verify by rendering the tag in a real DokuWiki
-  instance (e.g. the `dokuwiki/dokuwiki` Docker image with the repo mounted
-  into `conf/plugins/`).
+- `composer check` runs lint (`php -l syntax.php`), PHPUnit and PHPStan
+  (level max). Needs PHP >= 8.0 (`str_starts_with` is used).
+- Tests use minimal DokuWiki stubs in `tests/stubs.php`; no DokuWiki
+  install is required. CI runs lint, tests and PHPStan on PHP 8.1–8.4 and
+  lint + PHPStan on PHP 8.0 (PHPUnit 10+ needs 8.1), see
+  `.github/workflows/ci.yml`.
+- Output is a visual SVG; for visual checks render the tag in a real
+  DokuWiki instance (e.g. the `dokuwiki/dokuwiki` Docker image with the repo
+  mounted into `conf/plugins/`).
+
+## Coding conventions
+
+- 4-space indentation throughout `syntax.php`.
+- User-facing error messages use the language files in `lang/`; German
+  (`lang/de`) is the primary language, English (`lang/en`) is the fallback.
+- Never interpolate colors/percussion into the SVG without
+  `escapeAttribute()` — the markup is user-supplied.
 
 ## DokuWiki conventions that look wrong but are not
 
@@ -38,6 +52,5 @@ fraternities. The entire plugin is `syntax.php`; it emits inline SVG for the
 - The license is GPLv2 everywhere (`LICENSE` full text, README notice, and the
   `syntax.php` `@license` docblock). Keep all three consistent when editing
   headers.
-- `plugin.info.txt` `desc` is in German; the README is in English.
-- syntax.php mixes tabs and 4-space indentation; keep edits locally consistent
-  with the surrounding lines.
+- `plugin.info.txt` `desc` is in German; the README is in German too (with
+  English error-message fallback in `lang/en`).

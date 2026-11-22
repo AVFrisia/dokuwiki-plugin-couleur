@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-publish
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Lint
+        run: php -l syntax.php
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse --no-progress
+
+  min-php:
+    name: Minimum PHP version (8.0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+
+      # PHPUnit 10+ requires PHP 8.1, so on the minimum supported PHP version
+      # only lint and static analysis are run. This still guarantees the
+      # plugin source itself works on PHP 8.0.
+      - name: Lint
+        run: php -l syntax.php
+
+      - name: Install static analysis only
+        run: composer update --no-interaction --no-progress --no-dev --ignore-platform-req=php
+          && composer require --dev --no-interaction --no-progress phpstan/phpstan --ignore-platform-req=php
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse --no-progress

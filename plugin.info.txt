@@ -1,7 +1,7 @@
 base   couleur
 author Johannes Arnold
 email  johannes@arnold.onl
-date   2025-11-21
+date   2026-11-22
 name   Couleur-Generator
 desc   Kreeiert Fahnen und Bänder von Studentenverbindungen
 url    https://www.dokuwiki.org/plugin:fahne
