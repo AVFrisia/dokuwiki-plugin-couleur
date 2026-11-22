@@ -35,9 +35,9 @@ fraternities. The entire plugin is `syntax.php`; it emits inline SVG for the
 
 ## Other gotchas
 
-- License headers are inconsistent: `LICENSE` is AGPL-3.0, but the README and
-  the `syntax.php` docblock say GPL-2. Preserve existing headers when editing;
-  don't silently reconcile them.
+- The license is GPLv2 everywhere (`LICENSE` full text, README notice, and the
+  `syntax.php` `@license` docblock). Keep all three consistent when editing
+  headers.
 - `plugin.info.txt` `desc` is in German; the README is in English.
 - syntax.php mixes tabs and 4-space indentation; keep edits locally consistent
   with the surrounding lines.
