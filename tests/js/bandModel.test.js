@@ -7,7 +7,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { computeBars, formatNumber, parseBand, PLUGIN_NAME } from '../../bandModel.js';
+// bandModel.js is a classic script that publishes its API on globalThis, so it
+// can be inlined into DokuWiki's js.php. Import it for its side effect.
+await import('../../bandModel.js');
+
+const { computeBars, formatNumber, parseBand, PLUGIN_NAME } = globalThis;
 
 test('plugin name matches prosemirror data-pluginname', () => {
     assert.equal(PLUGIN_NAME, 'plugin_couleur');

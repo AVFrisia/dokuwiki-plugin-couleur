@@ -38,6 +38,17 @@ from `lang/`.
 - Never interpolate colors/percussion into the SVG without
   `escapeAttribute()` — the markup is user-supplied.
 
+## Editor preview (`script.js`, `bandModel.js`)
+
+- DokuWiki concatenates plugin `script.js` into `lib/exe/js.php` and loads it in
+  the `<head>`. Do not query DOM elements at load time (the body is not parsed
+  yet) and do not `import()` files by path — the plugin directory may be named
+  anything (e.g. a git clone). Use `/* DOKUWIKI:include */` instead.
+- `window.Prosemirror` only exists after the prosemirror plugin initialises; it
+  signals that with the `PROSEMIRROR_API_INITIALIZED` event.
+- `tests/js/script.test.js` guards these constraints (include expansion, no
+  DOM access on load, NodeView registration, other plugins untouched).
+
 ## DokuWiki conventions that look wrong but are not
 
 - `getType()` returns `'substition'` — the typo is part of DokuWiki's
